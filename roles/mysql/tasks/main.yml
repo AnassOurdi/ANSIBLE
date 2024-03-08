@@ -1,0 +1,24 @@
+- name: Installer MySQL
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Assurer que le service MySQL est démarré
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Créer une base de données pour WordPress
+  mysql_db:
+    name: wordpress_db
+    state: present
+
+- name: Créer un utilisateur MySQL et lui donner les privilèges
+  mysql_user:
+    name: wordpress_user
+    password: wordpress_pass
+    priv: 'wordpress_db.*:ALL'
+    state: present
+    host: '%'
+
